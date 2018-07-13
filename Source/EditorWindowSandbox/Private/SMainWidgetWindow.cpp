@@ -22,7 +22,20 @@ void SMainWidgetWindow::Construct(const FArguments& InArgs)
 					SNew(STextBlock)
 						.Text(this, &SMainWidgetWindow::HandleSelectorComboBoxText)
 				]
-		]											
+		]								
+		// second
+		+ SVerticalBox::Slot()
+		.AutoHeight()
+		[
+			SAssignNew(SecondComboBox, SComboBox<TSharedPtr<FString> >)
+				.OptionsSource(&SecondComboBoxOptions)
+				.OnSelectionChanged(this, &SMainWidgetWindow::HandleSecondComboBoxSelectionChanged)
+				.OnGenerateWidget(this, &SMainWidgetWindow::HandleComboBoxGenerateWidget)
+				[
+					SNew(STextBlock)
+						.Text(this, &SMainWidgetWindow::HandleSecondComboBoxText)
+				]
+		]
 	];
 
 
@@ -36,9 +49,19 @@ void SMainWidgetWindow::Construct(const FArguments& InArgs)
 		SelectorComboBox->RefreshOptions();
 		SelectorComboBox->SetSelectedItem(SelectedItem);
 
-		//SwitchSecondComboToOptionSetA();
 	}
+	{
+		SecondComboBoxOptions.Empty();
 
+		for (int32 ItemIndex = 0; ItemIndex < 500; ++ItemIndex)
+		{
+			SecondComboBoxOptions.Add(MakeShareable(new FString(FString::Printf(TEXT("Item A %3d"), ItemIndex))));
+		}
+
+		SecondComboBox->RefreshOptions();
+		SecondComboBox->SetSelectedItem(SecondComboBoxOptions[0]);
+
+	}
 	
 }
 
@@ -61,6 +84,7 @@ void SMainWidgetWindow::HandleSelectorComboBoxSelectionChanged(TSharedPtr<FStrin
 	//	SwitchSecondComboToOptionSetB();
 	//}
 
+
 	SelectorComboBoxSelectedItem = NewSelection;
 }
 
@@ -69,5 +93,15 @@ FText SMainWidgetWindow::HandleSelectorComboBoxText() const
 {
 	return SelectorComboBoxSelectedItem.IsValid() ? FText::FromString(*SelectorComboBoxSelectedItem) : FText::GetEmpty();
 }
+
+void SMainWidgetWindow::HandleSecondComboBoxSelectionChanged(TSharedPtr<FString> NewSelection, ESelectInfo::Type SelectInfo)
+{
+	ComboString = NewSelection;
+}
+FText SMainWidgetWindow::HandleSecondComboBoxText() const
+{
+	return ComboString.IsValid() ? FText::FromString(*ComboString) : FText::GetEmpty();
+}
+
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION

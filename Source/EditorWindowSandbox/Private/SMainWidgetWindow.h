@@ -6,6 +6,9 @@
 #include "Widgets/SCompoundWidget.h"
 #include "Widgets/Input/SComboBox.h"
 
+
+
+
 /**
  * 
  */
@@ -21,15 +24,25 @@ public:
 
 private:
 
-	// Callback for generating a widget in the SComboBox example.
+	// common 
 	TSharedRef<SWidget> HandleComboBoxGenerateWidget(TSharedPtr<FString> InItem);
+
+
+	//first
 	void HandleSelectorComboBoxSelectionChanged(TSharedPtr<FString> NewSelection, ESelectInfo::Type SelectInfo);
 	FText HandleSelectorComboBoxText() const;
-
-
 
 	TSharedPtr<SComboBox<TSharedPtr<FString> > > SelectorComboBox;
 	TArray<TSharedPtr<FString> > SelectorComboBoxOptions;
 	TSharedPtr<FString>	SelectorComboBoxSelectedItem;
+
+
+	//seconds
+	void HandleSecondComboBoxSelectionChanged(TSharedPtr<FString> NewSelection, ESelectInfo::Type SelectInfo);
+	FText HandleSecondComboBoxText() const;
+
+	TSharedPtr<SComboBox<TSharedPtr<FString> > > SecondComboBox;
+	TArray<TSharedPtr<FString> > SecondComboBoxOptions;
+	TSharedPtr<FString> ComboString;
 
 };
